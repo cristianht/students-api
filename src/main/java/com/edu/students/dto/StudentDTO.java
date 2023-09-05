@@ -1,37 +1,38 @@
-package com.edu.students.entity;
+package com.edu.students.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
+import com.edu.students.entity.Student;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name="student")
-public class Student {
+@Component
+public class StudentDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull (message = "firstname no puede ser nulo")
-    @NotBlank (message = "firstname no puede ser vacío")
-    @Column(length = 30, nullable = false)
+    @NotBlank(message = "firstname no puede ser vacío")
     private String firstname;
 
-    @NotNull (message = "lastname no puede ser nulo")
-    @NotBlank (message = "lastname no puede ser vacío")
-    @Column(length = 30, nullable = false)
+    @NotNull
     private String lastname;
 
-    @NotNull (message = "email no puede ser nulo")
-    @NotBlank (message = "email no puede ser vacío")
-    @Column(length = 30, nullable = false)
+    @NotNull
     private String email;
-
-    @Column(length = 30)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String phone;
+
+    public Student toEntity() {
+        Student entity = new Student();
+
+        entity.setId(this.id);
+        entity.setFirstname(this.firstname);
+        entity.setLastname(this.lastname);
+        entity.setEmail(this.email);
+        entity.setPhone(this.phone);
+
+        return entity;
+    }
 
     public Long getId() {
         return id;
